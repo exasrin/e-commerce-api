@@ -1,48 +1,46 @@
 package com.enigma.challenge_tokonyadia_api.controller;
 
 import com.enigma.challenge_tokonyadia_api.entity.Store;
+import com.enigma.challenge_tokonyadia_api.entity.Store;
 import com.enigma.challenge_tokonyadia_api.repository.StoreRepository;
+import com.enigma.challenge_tokonyadia_api.service.StoreService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/stores")
 public class StoreController {
-    private final StoreRepository storeRepository;
-
-    public StoreController(StoreRepository storeRepository) {
-        this.storeRepository = storeRepository;
+    private final StoreService storeService;
+    @Autowired
+    public StoreController(StoreService storeService) {
+        this.storeService = storeService;
     }
 
-    @PostMapping("/api/stores")
-    public Store saveNewStore(@RequestBody Store store) {
-        return storeRepository.save(store);
-    }
-    @GetMapping("/api/stores")
-    public List<Store> findAllStore() {
-        return storeRepository.findAll();
+    @PostMapping
+    public Store createNewStore(@RequestBody Store store) {
+        return storeService.createNew(store);
     }
 
-    @GetMapping("/api/stores/{id}")
-    public Store findStoreById(@PathVariable(name = "id") String id) {
-        return storeRepository.findById(id).get();
+    @GetMapping("/{id}")
+    public Store getStoreById(@PathVariable String id) {
+        return storeService.getById(id);
     }
 
-    @PutMapping("/api/stores")
+    @GetMapping
+    public List<Store> getAllStore() {
+        return storeService.getAll();
+    }
+
+    @PutMapping
     public Store updateStore(@RequestBody Store store) {
-        Optional<Store> byId = storeRepository.findById(store.getId());
-        if(byId.isEmpty()) {
-            throw new RuntimeException();
-        }
-        return storeRepository.save(store);
+        return storeService.update(store);
     }
 
-    @DeleteMapping("/api/stores/{id}")
-    public void deleteStoreById(@PathVariable(name = "id") String id) {
-        if(id.isEmpty()) {
-            throw new RuntimeException();
-        }
-        storeRepository.deleteById(id);
+    @DeleteMapping("/{id}")
+    public void deleteStoreById(@PathVariable String id) {
+        storeService.deleteById(id);
     }
 }
