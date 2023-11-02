@@ -1,13 +1,17 @@
 package com.enigma.challenge_tokonyadia_api.dto.request;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionDetailRequest {
-    private String productId;
-    private Integer quantity;
+@Builder
+public class SearchCustomerRequest {
+    private Integer page;
+    private Integer size;
+    private String direction;
+    private String sortBy;
 }

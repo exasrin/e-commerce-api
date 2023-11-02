@@ -1,9 +1,17 @@
 package com.enigma.challenge_tokonyadia_api.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "m_store")
 public class Store {
@@ -23,55 +31,4 @@ public class Store {
 
     @Column(name = "phone_number", unique = true)
     private  String phoneNumber;
-
-    public Store(String id, String siupNumber, String name, String address, String phoneNumber) {
-        this.id = id;
-        this.siupNumber = siupNumber;
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Store() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getSiupNumber() {
-        return siupNumber;
-    }
-
-    public void setSiupNumber(String siupNumber) {
-        this.siupNumber = siupNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }

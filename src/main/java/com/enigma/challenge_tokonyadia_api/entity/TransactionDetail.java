@@ -1,9 +1,18 @@
 package com.enigma.challenge_tokonyadia_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "t_transaction_detail")
 public class TransactionDetail {
@@ -13,6 +22,7 @@ public class TransactionDetail {
     private String id;
     @ManyToOne
     @JoinColumn(name = "transaction_id")
+    @JsonIgnore
     private Transaction transaction;
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -22,54 +32,4 @@ public class TransactionDetail {
     @Column(name = "price")
     private Long price;
 
-    public TransactionDetail(String id, Transaction transaction, Product product, Integer quantity, Long price) {
-        this.id = id;
-        this.transaction = transaction;
-        this.product = product;
-        this.quantity = quantity;
-        this.price = price;
-    }
-
-    public TransactionDetail() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
 }

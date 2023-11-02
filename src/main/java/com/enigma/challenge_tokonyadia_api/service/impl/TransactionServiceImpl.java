@@ -12,12 +12,12 @@ import com.enigma.challenge_tokonyadia_api.service.TransactionDetailService;
 import com.enigma.challenge_tokonyadia_api.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-@Transactional(rollbackOn = Exception.class)
+
 @Service
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
@@ -30,7 +30,7 @@ public class TransactionServiceImpl implements TransactionService {
         this.productService = productService;
         this.transactionDetailService = transactionDetailService;
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Transaction createNewTransaction(TransactionRequest request) {
         Transaction transaction = new Transaction();
@@ -38,6 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
         Customer customer = new Customer();
         customer.setId(request.getCustomerId());
         transaction.setCustomer(customer);
+        transaction.setTransactionDate(LocalDateTime.now());
 
         List<TransactionDetail> transactionDetails = new ArrayList<>();
         for (TransactionDetailRequest transactionDetailRequest : request.getTransactionDetails()) {
@@ -47,11 +48,11 @@ public class TransactionServiceImpl implements TransactionService {
             product.setId(transactionDetailRequest.getProductId());
             transactionDetail.setProduct(product);
             transactionDetail.setPrice(product.getPrice());
-            transactionDetail.setQuantity(transactionDetail.getQuantity());
-            if(transactionDetail.getQuantity() > product.getStock()) {
+            transactionDetail.setQuantity(transactionDetailRequest.getQuantity());
+            if(transactionDetailRequest.getQuantity() > product.getStock()) {
                 throw new RuntimeException();
             }
-            product.setStock(product.getStock() - transactionDetail.getQuantity());
+            product.setStock(product.getStock() - transactionDetailRequest.getQuantity());
             transactionDetails.add(transactionDetail);
         }
 

@@ -7,26 +7,21 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "t_transaction")
-public class Transaction {
+@Table(name = "m_admin")
+public class Admin {
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-    @Column(name = "transaction_date")
-    private LocalDateTime transactionDate;
-    @OneToMany(mappedBy = "transaction")
-    private List<TransactionDetail> transactionDetails;
+    private String name;
+    private String phoneNumber;
+    @OneToOne
+    @JoinColumn(name = "user_credential_id")
+    private UserCredential userCredential;
 }
