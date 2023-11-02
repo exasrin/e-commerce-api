@@ -1,4 +1,4 @@
-package com.enigma.wmb.service.impl;
+package com.enigma.challenge_tokonyadia_api.service.impl;
 
 import com.enigma.wmb.entity.AppUser;
 import com.enigma.wmb.entity.UserCredential;

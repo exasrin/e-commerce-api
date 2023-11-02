@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// merubah response jika terjadi error authenticationException
 @Component
 public class AuthEntryPoint implements AuthenticationEntryPoint {
     private final ObjectMapper objectMapper;

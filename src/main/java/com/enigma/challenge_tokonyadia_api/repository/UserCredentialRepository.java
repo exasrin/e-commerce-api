@@ -1,6 +1,7 @@
-package com.enigma.wmb.repository;
+package com.enigma.challenge_tokonyadia_api.repository;
 
-import com.enigma.wmb.entity.UserCredential;
+
+import com.enigma.challenge_tokonyadia_api.entity.UserCredential;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

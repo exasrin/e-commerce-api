@@ -1,8 +1,18 @@
 package com.enigma.challenge_tokonyadia_api.controller;
 
-import com.enigma.challenge_tokonyadia_api.entity.Product;
+import com.enigma.challenge_tokonyadia_api.dto.request.NewProductRequest;
+import com.enigma.challenge_tokonyadia_api.dto.request.SearchProductRequest;
+import com.enigma.challenge_tokonyadia_api.dto.request.UpdateProductRequest;
+import com.enigma.challenge_tokonyadia_api.dto.response.CommonResponse;
+import com.enigma.challenge_tokonyadia_api.dto.response.PagingResponse;
+import com.enigma.challenge_tokonyadia_api.dto.response.ProductResponse;
 import com.enigma.challenge_tokonyadia_api.service.ProductService;
+import com.enigma.challenge_tokonyadia_api.util.PagingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,28 +25,99 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-    @PostMapping
-    public Product createNewProduct(@RequestBody Product customer) {
-        return productService.createNew(customer);
+    @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> createProduct(@RequestBody NewProductRequest request) {
+        ProductResponse productResponse = productService.createNew(request);
+        CommonResponse<ProductResponse> response = CommonResponse.<ProductResponse>builder()
+                .message("successfully create new product")
+                .statusCode(HttpStatus.CREATED.value())
+                .data(productResponse)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<?> getAllProduct(
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size,
+            @RequestParam(required = false, defaultValue = "asc") String direction,
+            @RequestParam(required = false, defaultValue = "name") String sortBy,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long minPrice,
+            @RequestParam(required = false) Long maxPrice
+    ) {
+        page = PagingUtil.validatePage(page);
+        size = PagingUtil.validateSize(size);
+        direction = PagingUtil.validateDirection(direction);
+
+        SearchProductRequest request = SearchProductRequest.builder()
+                .page(page)
+                .size(size)
+                .direction(direction)
+                .sortBy(sortBy)
+                .name(name)
+                .minPrice(minPrice)
+                .maxPrice(maxPrice)
+                .build();
+
+        Page<ProductResponse> productResponses = productService.getAll(request);
+        PagingResponse pagingResponse = PagingResponse.builder()
+                .count(productResponses.getTotalElements())
+                .totalPages(productResponses.getTotalPages())
+                .page(page)
+                .size(size)
+                .build();
+        CommonResponse<List<ProductResponse>> response = CommonResponse.<List<ProductResponse>>builder()
+                .message("successfully get all product")
+                .statusCode(HttpStatus.OK.value())
+                .data(productResponses.getContent())
+                .paging(pagingResponse)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable String id) {
-        return productService.getById(id);
-    }
-
-    @GetMapping
-    public List<Product> getAllProduct() {
-        return productService.getAll();
+    public ResponseEntity<?> getProductById(@PathVariable String id) {
+        ProductResponse productResponse = productService.getOne(id);
+        CommonResponse<ProductResponse> response = CommonResponse.<ProductResponse>builder()
+                .message("successfully get product by id")
+                .statusCode(HttpStatus.OK.value())
+                .data(productResponse)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
     @PutMapping
-    public Product updateProduct(@RequestBody Product customer) {
-        return productService.update(customer);
+    public ResponseEntity<?> updateProduct(@RequestBody UpdateProductRequest request) {
+        ProductResponse productResponse = productService.update(request);
+        CommonResponse<ProductResponse> response = CommonResponse.<ProductResponse>builder()
+                .message("successfully update product")
+                .statusCode(HttpStatus.OK.value())
+                .data(productResponse)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProductById(@PathVariable String id) {
+    public ResponseEntity<?> deleteProductById(@PathVariable String id) {
         productService.deleteById(id);
+        CommonResponse<?> response = CommonResponse.builder()
+                .message("successfully delete product")
+                .statusCode(HttpStatus.OK.value())
+                .data("OK")
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 }

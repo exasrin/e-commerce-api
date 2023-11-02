@@ -1,8 +1,8 @@
-package com.enigma.wmb.service;
+package com.enigma.challenge_tokonyadia_api.service;
 
-import com.enigma.wmb.dto.request.AuthRequest;
-import com.enigma.wmb.dto.response.LoginResponse;
-import com.enigma.wmb.dto.response.RegisterResponse;
+import com.enigma.challenge_tokonyadia_api.dto.request.AuthRequest;
+import com.enigma.challenge_tokonyadia_api.dto.response.LoginResponse;
+import com.enigma.challenge_tokonyadia_api.dto.response.RegisterResponse;
 
 public interface AuthService {
     RegisterResponse registerCustomer(AuthRequest request);

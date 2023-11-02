@@ -9,7 +9,6 @@ import com.enigma.challenge_tokonyadia_api.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    @Override
+    public CustomerResponse createNew(Customer request) {
+        Customer customer = customerRepository.saveAndFlush(request);
+        return mapToResponse(customer);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public Customer getById(String id) {
@@ -78,10 +83,32 @@ public class CustomerServiceImpl implements CustomerService {
         );
 
         Page<Customer> customers = customerRepository.findAll(pageable);
-        return customers.map(customer -> mapToResponse(customer));
+        return customers.map(this::mapToResponse);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public CustomerResponse update(UpdateCustomerRequest request) {
+        try {
+            Customer currentCustomer = findByIdOrThrowNotFound(request.getId());
+            currentCustomer.setId(request.getId());
+            currentCustomer.setName(request.getName());
+            currentCustomer.setAddress(request.getAddress());
+            currentCustomer.setEmail(request.getEmail());
+            currentCustomer.setPhoneNumber(request.getPhoneNumber());
+            customerRepository.saveAndFlush(currentCustomer);
+            return mapToResponse(currentCustomer);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "phone number already exist");
+        }
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteById(String id) {
+        Customer customer = findByIdOrThrowNotFound(id);
+        customerRepository.delete(customer);
+    }
 
     private Customer findByIdOrThrowNotFound(String id) {
         Optional<Customer> customer = customerRepository.findById(id);

@@ -27,7 +27,6 @@ public class SecurityConfiguration {
         this.authEntryPoint = authEntryPoint;
     }
 
-    // Authentication Manager -> digunakan untuk authentication user cek, (username, password) / token
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

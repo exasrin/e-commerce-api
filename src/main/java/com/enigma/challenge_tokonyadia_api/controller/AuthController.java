@@ -1,10 +1,10 @@
-package com.enigma.wmb.controller;
+package com.enigma.challenge_tokonyadia_api.controller;
 
-import com.enigma.wmb.dto.request.AuthRequest;
-import com.enigma.wmb.dto.response.CommonResponse;
-import com.enigma.wmb.dto.response.LoginResponse;
-import com.enigma.wmb.dto.response.RegisterResponse;
-import com.enigma.wmb.service.AuthService;
+import com.enigma.challenge_tokonyadia_api.dto.request.AuthRequest;
+import com.enigma.challenge_tokonyadia_api.dto.response.CommonResponse;
+import com.enigma.challenge_tokonyadia_api.dto.response.LoginResponse;
+import com.enigma.challenge_tokonyadia_api.dto.response.RegisterResponse;
+import com.enigma.challenge_tokonyadia_api.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

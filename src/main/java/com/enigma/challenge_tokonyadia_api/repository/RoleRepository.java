@@ -1,7 +1,7 @@
-package com.enigma.wmb.repository;
+package com.enigma.challenge_tokonyadia_api.repository;
 
-import com.enigma.wmb.constant.ERole;
-import com.enigma.wmb.entity.Role;
+import com.enigma.challenge_tokonyadia_api.constant.ERole;
+import com.enigma.challenge_tokonyadia_api.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

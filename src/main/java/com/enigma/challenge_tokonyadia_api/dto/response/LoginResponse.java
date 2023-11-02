@@ -1,4 +1,4 @@
-package com.enigma.wmb.dto.response;
+package com.enigma.challenge_tokonyadia_api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
