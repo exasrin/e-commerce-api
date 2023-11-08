@@ -1,5 +1,6 @@
 package com.enigma.challenge_tokonyadia_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,15 +21,19 @@ public class TransactionDetail {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
+
     @ManyToOne
     @JoinColumn(name = "transaction_id")
-    @JsonIgnore
+    @JsonBackReference
     private Transaction transaction;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
     @Column(name = "quantity")
     private Integer quantity;
+
     @Column(name = "price")
     private Long price;
 

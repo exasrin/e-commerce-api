@@ -1,17 +1,15 @@
 package com.enigma.challenge_tokonyadia_api.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -22,11 +20,15 @@ public class Transaction {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
     @Column(name = "transaction_date")
     private LocalDateTime transactionDate;
+
     @OneToMany(mappedBy = "transaction")
+    @JsonManagedReference
     private List<TransactionDetail> transactionDetails;
 }

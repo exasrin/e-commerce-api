@@ -1,9 +1,9 @@
 package com.enigma.challenge_tokonyadia_api.service.impl;
 
-import com.enigma.wmb.entity.AppUser;
-import com.enigma.wmb.entity.UserCredential;
-import com.enigma.wmb.repository.UserCredentialRepository;
-import com.enigma.wmb.service.UserService;
+import com.enigma.challenge_tokonyadia_api.entity.AppUser;
+import com.enigma.challenge_tokonyadia_api.entity.UserCredential;
+import com.enigma.challenge_tokonyadia_api.repository.UserCredentialRepository;
+import com.enigma.challenge_tokonyadia_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

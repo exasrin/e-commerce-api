@@ -19,4 +19,5 @@ public class ProductResponse {
     private String description;
     private Long price;
     private Integer stock;
+    private FileResponse image;
 }

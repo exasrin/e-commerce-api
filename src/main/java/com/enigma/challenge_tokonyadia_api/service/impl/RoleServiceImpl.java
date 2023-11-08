@@ -1,8 +1,8 @@
 package com.enigma.challenge_tokonyadia_api.service.impl;
 
-import com.enigma.wmb.entity.Role;
-import com.enigma.wmb.repository.RoleRepository;
-import com.enigma.wmb.service.RoleService;
+import com.enigma.challenge_tokonyadia_api.entity.Role;
+import com.enigma.challenge_tokonyadia_api.repository.RoleRepository;
+import com.enigma.challenge_tokonyadia_api.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Min;
@@ -28,4 +29,6 @@ public class NewProductRequest {
     @NotBlank(message = "stock is required")
     @Min(value = 0, message = "stock must be greater than 0")
     private Integer stock;
+
+    private MultipartFile image;
 }

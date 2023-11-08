@@ -20,6 +20,7 @@ public class Role {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
+
     @Enumerated(EnumType.STRING)
     private ERole name;
 }

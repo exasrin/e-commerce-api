@@ -19,8 +19,9 @@ public class Admin {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
+
     private String name;
-    private String phoneNumber;
+
     @OneToOne
     @JoinColumn(name = "user_credential_id")
     private UserCredential userCredential;

@@ -21,11 +21,11 @@ import java.util.Map;
 public class JwtUtil {
 //    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("app.warung-makan-bahari.jwt-secret")
+    @Value("${app.tokonyadia.jwt-secret}")
     private String jwtSecret;
-    @Value("app.warung-makan-bahari.app-name")
+    @Value("${app.tokonyadia.app-name}")
     private String appName;
-    @Value("${app.warung-makan-bahari.jwtExpirationInSecond}")
+    @Value("${app.tokonyadia.jwtExpirationInSecond}")
     private long jwtExpirationInSecond;
 
     public String generateToken(AppUser appUser) {
