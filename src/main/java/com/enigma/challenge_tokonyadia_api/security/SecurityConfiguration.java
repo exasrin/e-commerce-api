@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint)
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

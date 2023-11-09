@@ -8,6 +8,7 @@ import com.enigma.challenge_tokonyadia_api.dto.response.CustomerResponse;
 import com.enigma.challenge_tokonyadia_api.dto.response.PagingResponse;
 import com.enigma.challenge_tokonyadia_api.service.CustomerService;
 import com.enigma.challenge_tokonyadia_api.util.PagingUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
+@AllArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-    @Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @PostMapping
     public ResponseEntity<?> createNewCustomer(@RequestBody NewCustomerRequest request) {

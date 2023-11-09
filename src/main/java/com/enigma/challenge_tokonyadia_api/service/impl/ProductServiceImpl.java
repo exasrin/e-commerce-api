@@ -3,12 +3,16 @@ package com.enigma.challenge_tokonyadia_api.service.impl;
 import com.enigma.challenge_tokonyadia_api.dto.request.NewProductRequest;
 import com.enigma.challenge_tokonyadia_api.dto.request.SearchProductRequest;
 import com.enigma.challenge_tokonyadia_api.dto.request.UpdateProductRequest;
+import com.enigma.challenge_tokonyadia_api.dto.response.FileResponse;
 import com.enigma.challenge_tokonyadia_api.dto.response.ProductResponse;
 import com.enigma.challenge_tokonyadia_api.entity.Product;
+import com.enigma.challenge_tokonyadia_api.entity.ProductImage;
 import com.enigma.challenge_tokonyadia_api.repository.ProductRepository;
+import com.enigma.challenge_tokonyadia_api.service.ProductImageService;
 import com.enigma.challenge_tokonyadia_api.service.ProductService;
 import com.enigma.challenge_tokonyadia_api.util.ValidationUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,24 +28,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final ProductImageService productImageService;
     private final ValidationUtil validationUtil;
-    @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ValidationUtil validationUtil) {
-        this.productRepository = productRepository;
-        this.validationUtil = validationUtil;
-    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ProductResponse createNew(NewProductRequest request) {
         validationUtil.validate(request);
+        List<ProductImage> productImages = productImageService.createFile(request.getMultipartFiles());
         Product product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .stock(request.getStock())
+                .productImage(productImages)
                 .build();
         productRepository.saveAndFlush(product);
         return mapToResponse(product);
@@ -52,6 +55,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getById(String id) {
         return findByIdOrThrowNotFound(id);
+    }
+
+    @Override
+    public Resource getProductImageById(String id, String imageName) {
+        Product product = findByIdOrThrowNotFound(id);
+        ProductImage images = new ProductImage();
+        for (ProductImage productImage : product.getProductImage()) {
+            if (productImage.getName().equals(imageName)){
+                images = productImage;
+            }
+        }
+        return productImageService.findByPath(images.getPath());
+
+
+//        return productImages;
     }
 
     @Transactional(readOnly = true)
@@ -96,12 +114,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductResponse mapToResponse(Product product) {
+        List<FileResponse> fileResponses = new ArrayList<>();
+        for (ProductImage productImage : product.getProductImage()) {
+            FileResponse fileResponse = FileResponse.builder()
+                    .filename(productImage.getName())
+                    .url("/api/products/" + product.getId() + "/images/" + productImage.getName())
+                    .build();
+            productImage.setProduct(product);
+            fileResponses.add(fileResponse);
+        }
         return ProductResponse.builder()
                 .productId(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .stock(product.getStock())
+                .multipartFiles(fileResponses)
                 .build();
     }
 

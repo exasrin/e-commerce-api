@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,5 +20,5 @@ public class ProductResponse {
     private String description;
     private Long price;
     private Integer stock;
-    private FileResponse image;
+    private List<FileResponse> multipartFiles;
 }

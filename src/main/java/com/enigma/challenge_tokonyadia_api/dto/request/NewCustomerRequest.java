@@ -13,16 +13,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 public class NewCustomerRequest {
-    @NotBlank(message = "name is required")
     private String name;
-
-    @NotBlank(message = "address is required")
     private String address;
-
-    @NotBlank(message = "email is required")
     private String email;
-
-    @NotBlank(message = "phone number is required")
-    @Size(min = 11, max = 15, message = "invalid phone number")
     private String phoneNumber;
+    private String userCredentialId;
 }

@@ -23,7 +23,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/register/customer")
+    @PostMapping("/register/customers")
     public ResponseEntity<?> register(@RequestBody AuthRequest request) {
         RegisterResponse registerResponse = authService.registerCustomer(request);
         CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()

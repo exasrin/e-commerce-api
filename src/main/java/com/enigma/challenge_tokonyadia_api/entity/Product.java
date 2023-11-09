@@ -38,8 +38,7 @@ public class Product {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @OneToMany(mappedBy = "")
-    @JoinColumn(name = "product_image_id", unique = true)
+    @OneToMany(mappedBy = "product")
     private List<ProductImage> productImage;
 
 }

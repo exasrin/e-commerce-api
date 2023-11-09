@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface CustomerService {
     CustomerResponse createNew(NewCustomerRequest request);
-    CustomerResponse createNew(Customer customer);
     Customer getById(String id);
     CustomerResponse getOne(String id);
     Page<CustomerResponse> getAll(SearchCustomerRequest request);

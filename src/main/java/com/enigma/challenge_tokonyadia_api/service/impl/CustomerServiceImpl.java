@@ -6,6 +6,7 @@ import com.enigma.challenge_tokonyadia_api.entity.Customer;
 import com.enigma.challenge_tokonyadia_api.repository.CustomerRepository;
 import com.enigma.challenge_tokonyadia_api.service.CustomerService;
 import com.enigma.challenge_tokonyadia_api.util.ValidationUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
@@ -19,15 +20,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final ValidationUtil validationUtil;
 
-    @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, ValidationUtil validationUtil) {
-        this.customerRepository = customerRepository;
-        this.validationUtil = validationUtil;
-    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -47,11 +44,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    @Override
-    public CustomerResponse createNew(Customer request) {
-        Customer customer = customerRepository.saveAndFlush(request);
-        return mapToResponse(customer);
-    }
 
     @Transactional(readOnly = true)
     @Override

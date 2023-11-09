@@ -16,5 +16,5 @@ public class TransactionResponse {
     private String transactionId;
     private String customerId;
     private LocalDateTime transactionDate;
-    private List<TransactionDetail> transactionDetails;
+    private List<TransactionDetailResponse> transactionDetails;
 }

@@ -3,6 +3,7 @@ package com.enigma.challenge_tokonyadia_api.service.impl;
 
 import com.enigma.challenge_tokonyadia_api.constant.ERole;
 import com.enigma.challenge_tokonyadia_api.dto.request.AuthRequest;
+import com.enigma.challenge_tokonyadia_api.dto.request.NewCustomerRequest;
 import com.enigma.challenge_tokonyadia_api.dto.response.LoginResponse;
 import com.enigma.challenge_tokonyadia_api.dto.response.RegisterResponse;
 import com.enigma.challenge_tokonyadia_api.entity.AppUser;
@@ -25,9 +26,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@RequestMapping("/api/auth")
 public class AuthServiceImpl implements AuthService {
     private final UserCredentialRepository userCredentialRepository;
     private final PasswordEncoder passwordEncoder;
@@ -65,8 +68,8 @@ public class AuthServiceImpl implements AuthService {
             userCredentialRepository.saveAndFlush(userCredential);
 
             // customer
-            Customer customer = Customer.builder()
-                    .userCredential(userCredential)
+            NewCustomerRequest customer = NewCustomerRequest.builder()
+                    .userCredentialId(userCredential.getId())
                     .build();
             customerService.createNew(customer);
 
